@@ -4,16 +4,18 @@ Various methods for sentiment analysis. From everything manual - no supervised m
 To get data, execute the following:
 ```python
 import kagglehub
+import shutil
+import os
 import pandas as pd
 
-# Download the dataset
-path = kagglehub.dataset_download("snap/amazon-fine-food-reviews")
+# Download to cache
+cache_path = kagglehub.dataset_download("snap/amazon-fine-food-reviews")
 
-# Load the CSV file
-csv_path = f"{path}/Reviews.csv"
-df = pd.read_csv(csv_path)
+# Create ./input/ folder if it doesn't exist
+local_path = "./input/amazon-fine-food-reviews"
+os.makedirs(local_path, exist_ok=True)
 
-# Display basic info
-print("Dataset loaded.")
-print(df.head())
+# Copy all files to ./input/
+for file_name in os.listdir(cache_path):
+    shutil.copy(os.path.join(cache_path, file_name), local_path)
 ```
